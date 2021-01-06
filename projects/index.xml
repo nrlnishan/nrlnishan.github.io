@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects on Nishan&#39;s Blog</title>
+    <link>https://nrlnishan.github.io/projects/</link>
+    <description>Recent content in Projects on Nishan&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 06 Jan 2021 22:52:20 +0700</lastBuildDate><atom:link href="https://nrlnishan.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Word Quest</title>
+      <link>https://nrlnishan.github.io/projects/word-quest/</link>
+      <pubDate>Wed, 06 Jan 2021 22:52:20 +0700</pubDate>
+      
+      <guid>https://nrlnishan.github.io/projects/word-quest/</guid>
+      <description>Word Quest is my small attempt in game development. It is an ios word finding games where you have to find words hidden in mist of letters. You can download it from this link Word Quest - Appstore
+There are 40 quests with 10 levels inside each quest. Letters for the words are displayed in 5x5 grid and you have to swipe between letters in the grid to find the word.</description>
+    </item>
+    
+    <item>
+      <title>Gym Diary</title>
+      <link>https://nrlnishan.github.io/projects/gym-diary/</link>
+      <pubDate>Wed, 06 Jan 2021 22:49:41 +0700</pubDate>
+      
+      <guid>https://nrlnishan.github.io/projects/gym-diary/</guid>
+      <description>Gym Diary is one of my first personal project. Its an iOS app for keeping track of all your workout &amp;amp; fitness related activities. I&amp;rsquo;d love if you guys checkout my app and leave a valuable feedback. You can download it from this link. Gym Diary - Appstore
+Features:  Dark Mode Clean &amp;amp; Beautiful UI Unlimited workout creation Create your own workout plan Progress Graph iCloud Sync Widgets [Coming Soon] Watch OS App [Coming Soon]   Screenshots </description>
+    </item>
+    
+  </channel>
+</rss>

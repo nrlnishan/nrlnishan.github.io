@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>swift on Nishan&#39;s Blog</title>
+    <link>https://nrlnishan.github.io/tags/swift/</link>
+    <description>Recent content in swift on Nishan&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 May 2020 21:56:51 +0700</lastBuildDate><atom:link href="https://nrlnishan.github.io/tags/swift/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learn about Property Wrappers in Swift</title>
+      <link>https://nrlnishan.github.io/posts/property-wrappers/</link>
+      <pubDate>Wed, 20 May 2020 21:56:51 +0700</pubDate>
+      
+      <guid>https://nrlnishan.github.io/posts/property-wrappers/</guid>
+      <description>Swift 5.1 introduced an interesting concept called Property Wrappers. As the name suggests, it creates a wrapper around any plain old properties in struct , class or enum and enhance their abilities. Let&amp;rsquo;s dive right into code. Almost every app out there saves some kind of information in UserDefaults. The common approach to do that would be:
+struct AppSettings { // Update the respective value in UserDefault static var isDarkModeEnabled = false { didSet { UserDefaults.</description>
+    </item>
+    
+  </channel>
+</rss>

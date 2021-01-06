@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://nrlnishan.github.io/sitemap.xml
