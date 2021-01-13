@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Nishan&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 04 Sep 2020 22:25:52 +0700</lastBuildDate><atom:link href="https://nrlnishan.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Jan 2021 21:46:48 +0700</lastBuildDate><atom:link href="https://nrlnishan.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SwiftUI Journey</title>
+      <link>https://nrlnishan.github.io/posts/learn-swiftui/</link>
+      <pubDate>Wed, 13 Jan 2021 21:46:48 +0700</pubDate>
+      
+      <guid>https://nrlnishan.github.io/posts/learn-swiftui/</guid>
+      <description>For those people who don&amp;rsquo;t know about SwiftUI, it is the latest shiny framework from apple which everyone is talking about. I have been trying it on and off for past 6 months. But now i feel the best way to learn it is to make an app using SwiftUI. I&amp;rsquo;ll update about my journey here. Stay tuned&amp;hellip;
+# Day 1: Jan 13, 2020 I started an app to track my expenses.</description>
+    </item>
+    
     <item>
       <title>Objective-C : P.S. I still hate you</title>
       <link>https://nrlnishan.github.io/posts/objective-c-i-hate-you/</link>
