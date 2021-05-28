@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Dark Mode in SwiftUI App | Nishan&#39;s Blog</title>
+
+<meta name="keywords" content="" />
+<meta name="description" content="If you have created a new SwiftUI project recently, you might have noticed that your AppDelegate &amp; SceneDelegate files are gone. Instead it gets replaced by App struct which acts as the entry point for your app. In UIKit projects, to override the theme for whole app, we could access the overrideUserInterfaceStyle of window and set it to appropriate style. Let&rsquo;s learn how to switch between themes in a SwiftUI way.">
+<meta name="author" content="">
+<link rel="canonical" href="https://nrlnishan.github.io/posts/dark-mode-swiftui/" />
+<link href="https://nrlnishan.github.io/assets/css/stylesheet.min.19d8234f7520f2216aca845b9f292982671403accc7e754ceb099b228a5980fe.css" integrity="sha256-GdgjT3Ug8iFqyoRbnykpgmcUA6zMfnVM6wmbIopZgP4=" rel="preload stylesheet"
+    as="style">
+
+<link rel="icon" href="https://nrlnishan.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://nrlnishan.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://nrlnishan.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://nrlnishan.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://nrlnishan.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+<meta property="og:title" content="Dark Mode in SwiftUI App" />
+<meta property="og:description" content="If you have created a new SwiftUI project recently, you might have noticed that your AppDelegate &amp; SceneDelegate files are gone. Instead it gets replaced by App struct which acts as the entry point for your app. In UIKit projects, to override the theme for whole app, we could access the overrideUserInterfaceStyle of window and set it to appropriate style. Let&rsquo;s learn how to switch between themes in a SwiftUI way." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://nrlnishan.github.io/posts/dark-mode-swiftui/" />
+<meta property="article:published_time" content="2021-05-27T17:17:10+07:00" />
+<meta property="article:modified_time" content="2021-05-27T17:17:10+07:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Dark Mode in SwiftUI App"/>
+<meta name="twitter:description" content="If you have created a new SwiftUI project recently, you might have noticed that your AppDelegate &amp; SceneDelegate files are gone. Instead it gets replaced by App struct which acts as the entry point for your app. In UIKit projects, to override the theme for whole app, we could access the overrideUserInterfaceStyle of window and set it to appropriate style. Let&rsquo;s learn how to switch between themes in a SwiftUI way."/>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Dark Mode in SwiftUI App",
+  "name": "Dark Mode in SwiftUI App",
+  "description": "If you have created a new SwiftUI project recently, you might have noticed that your AppDelegate \u0026amp;amp; SceneDelegate files are gone. Instead it gets replaced by App struct which …",
+  "keywords": [
+    
+  ],
+  "articleBody": "If you have created a new SwiftUI project recently, you might have noticed that your AppDelegate \u0026 SceneDelegate files are gone. Instead it gets replaced by App struct which acts as the entry point for your app. In UIKit projects, to override the theme for whole app, we could access the overrideUserInterfaceStyle of window and set it to appropriate style. Let’s learn how to switch between themes in a SwiftUI way.\nSetup First we need to setup colors. Go to you project .xcassets file and create a color asset. You can define color for light \u0026 dark appearance in your color asset. For the sake of simplicity, this article will use two colors backgroundStyle1 and backgroundStyle2 setup as color assets. After setting up the colors, let’s create an enum to track our Theme. This enum also contains an extra property called colorScheme which we will use later.\nenum Theme: Int { case light case dark var colorScheme: ColorScheme { switch self { case .light: return .light case .dark: return .dark } } } Source Of Truth In SwiftUI world, we often hear about source of truth. When source of truth changes, our views should react to it and change its state. For our app, its app settings where we store user theme preference. When user selects particular theme, we update our settings and expect views to change their color scheme based on this value.\nWe also need to persist the user selected value. For that we use @AppStorage property wrapper which SwiftUI provides. There is a special reason to use this. From apple docs, @Appstorage is\n A property wrapper type that reflects a value from UserDefaults and invalidates a view on a change in value in that user default.\n What this simply means is, not only @AppStorage persists the value in UserDefaults but it also acts like a @State property i.e as soon as this property changes, the views can reflect this change. So lets create our source of truth:\nclass AppSettings: ObservableObject { static let shared = AppSettings() @AppStorage(\"current_theme\") var currentTheme: Theme = .light } When user selects light or dark theme, we will update this current theme value. As a result of this change, our view should change its color scheme. Let’s create a simple view to test this.\n@main struct MyApp: App { var body: some Scene { WindowGroup { FirstView() } } } ... struct FirstView: View { var body: some View { NavigationView { VStack { Rectangle() .foregroundColor(Color(\"backgroundStyle2\")) .padding(24) Rectangle() .foregroundColor(Color(\"backgroundStyle2\")) .padding(24) Rectangle() .foregroundColor(Color(\"backgroundStyle2\")) .padding(24) } .background(Color(\"backgroundStyle1\")) .navigationBarTitle(\"SwiftUI Themes\", displayMode: .inline) .navigationBarItems(trailing: Button(action: { let currentTheme = AppSettings.shared.currentTheme AppSettings.shared.currentTheme = currentTheme == .light ? .dark : .light }, label: { Image(systemName: AppSettings.shared.currentTheme == .light ? \"moon\" : \"moon.fill\") .resizable() .scaledToFit() })) } } } In this view, when user taps on the navigation bar button, we toggle between light \u0026 dark theme. We update this value in AppSettings. When you press on that button now, nothing happens. This is because our view is unaware about the changes in our source of truth. We will fix this in next step.\nColor Scheme First lets talk about how we can change the color scheme in SwiftUI. It provides two modifiers for changing the color scheme i.e colorScheme \u0026 preferredColorScheme. If you look into their documentation, there is a small difference between these two modifiers.\ncolorScheme gets applied to view \u0026 its subviews. So if you apply colorScheme to VStack, everything inside VStack also gets same scheme.\npreferredColorScheme is same as colorScheme but it also gets applied to nearest enclosing presentation. In simple word, its nearest parent. Since our FirstView is enclosed by WindowGroup and we want color scheme changes to be reflected in status bar, we are going to use this. Lets add the code to change the color scheme.\n@main struct MyApp: App { @ObservedObject var appSettings = AppSettings.shared var body: some Scene { WindowGroup { FirstView() .preferredColorScheme(appSettings.currentTheme.colorScheme) } } } Here, we create our AppSettings instance as an ObservedObject. This is so that our view can react to the changes published by AppSettings instance. Then we add preferredColorScheme modifier to our main view. The value for the ColorScheme parameter is obtained from the app settings.\nThat’s it. Now if you run the app, you can see that our view reacts to the theme changes.\nYour browser does not support the video tag.   Follow me on Twitter: @nrlnishan\nLove this article? You can also buy me: A Coffee ☕\n",
+  "wordCount" : "743",
+  "inLanguage": "en",
+  "datePublished": "2021-05-27T17:17:10+07:00",
+  "dateModified": "2021-05-27T17:17:10+07:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://nrlnishan.github.io/posts/dark-mode-swiftui/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Nishan's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://nrlnishan.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+<noscript>
+    <style type="text/css">
+        .theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://nrlnishan.github.io/" accesskey="h" title="Nishan&#39;s Blog (Alt + H)">Nishan&#39;s Blog</a>
+            <span class="logo-switches">
+                <span class="theme-toggle" title="(Alt + T)">
+                    <a id="theme-toggle" accesskey="t">
+                        <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </a>
+                </span>
+                
+            </span>
+        </div>
+        <ul class="menu" id="menu" onscroll="menu_on_scroll()">
+            <li>
+                <a href="https://nrlnishan.github.io/posts/" title="All Posts">
+                    <span>All Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://nrlnishan.github.io/projects/" title="projects">
+                    <span>projects</span>
+                </a>
+            </li></ul>
+    </nav>
+</header>
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <h1 class="post-title">
+      Dark Mode in SwiftUI App
+    </h1>
+    <div class="post-description">
+      
+    </div>
+    <div class="post-meta">May 27, 2021&nbsp;·&nbsp;4 min
+
+    </div>
+  </header> 
+
+  <div class="post-content">
+<p>If you have created a new SwiftUI project recently, you might have noticed that your <code>AppDelegate</code> &amp; <code>SceneDelegate</code> files are gone. Instead it gets replaced by <code>App</code> struct which acts as the entry point for your app. In UIKit projects, to override the theme for whole app, we could access the <code>overrideUserInterfaceStyle</code> of window and set it to appropriate style. Let&rsquo;s learn how to switch between themes in a SwiftUI way.</p>
+<h2 id="setup">Setup<a hidden class="anchor" aria-hidden="true" href="#setup">#</a></h2>
+<p>First we need to setup colors. Go to you project .xcassets file and create a color asset. You can define color for light &amp; dark appearance in your color asset. For the sake of simplicity, this article will use two colors <code>backgroundStyle1</code> and <code>backgroundStyle2</code> setup as color assets. After setting up the colors, let&rsquo;s create an enum to track our Theme. This enum also contains an extra property called <code>colorScheme</code> which we will use later.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">
+<span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Theme</span>: Int {
+    <span style="color:#66d9ef">case</span> light
+    <span style="color:#66d9ef">case</span> dark
+    
+    <span style="color:#66d9ef">var</span> colorScheme: ColorScheme {
+        <span style="color:#66d9ef">switch</span> <span style="color:#66d9ef">self</span> {
+        <span style="color:#66d9ef">case</span> .light:
+            <span style="color:#66d9ef">return</span> .light
+        <span style="color:#66d9ef">case</span> .dark:
+            <span style="color:#66d9ef">return</span> .dark
+        }
+    }
+}
+</code></pre></div><h2 id="source-of-truth">Source Of Truth<a hidden class="anchor" aria-hidden="true" href="#source-of-truth">#</a></h2>
+<p>In SwiftUI world, we often hear about source of truth. When source of truth changes, our views should react to it and change its state. For our app, its app settings where we store user theme preference. When user selects particular theme, we update our settings and expect views to change their color scheme based on this value.</p>
+<p>We also need to persist the user selected value. For that we use <code>@AppStorage</code> property wrapper which SwiftUI provides. There is a special reason to use this. From apple docs, <code>@Appstorage</code> is</p>
+<blockquote>
+<p>A property wrapper type that reflects a value from UserDefaults and invalidates a view on a change in value in that user default.</p>
+</blockquote>
+<p>What this simply means is, not only <code>@AppStorage</code> persists the value in UserDefaults but it also acts like a <code>@State</code> property i.e as soon as this property changes, the views can reflect this change. So lets create our source of truth:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AppSettings</span>: ObservableObject {
+
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">let</span> shared = AppSettings() 
+    
+    @AppStorage(<span style="color:#e6db74">&#34;current_theme&#34;</span>) <span style="color:#66d9ef">var</span> currentTheme: Theme = .light
+}
+
+</code></pre></div><p>When user selects light or dark theme, we will update this current theme value. As a result of this change, our view should change its color scheme. Let&rsquo;s create a simple view to test this.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">
+@main
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MyApp</span>: App {
+    
+    <span style="color:#66d9ef">var</span> body: some Scene {
+        WindowGroup {
+            FirstView()
+        }
+    }
+}
+
+...
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FirstView</span>: View {
+
+    <span style="color:#66d9ef">var</span> body: some View {
+        NavigationView {
+            VStack {
+                Rectangle()
+                    .foregroundColor(Color(<span style="color:#e6db74">&#34;backgroundStyle2&#34;</span>))
+                    .padding(<span style="color:#ae81ff">24</span>)
+                
+                Rectangle()
+                    .foregroundColor(Color(<span style="color:#e6db74">&#34;backgroundStyle2&#34;</span>))
+                    .padding(<span style="color:#ae81ff">24</span>)
+                
+                Rectangle()
+                    .foregroundColor(Color(<span style="color:#e6db74">&#34;backgroundStyle2&#34;</span>))
+                    .padding(<span style="color:#ae81ff">24</span>)
+            }
+            .background(Color(<span style="color:#e6db74">&#34;backgroundStyle1&#34;</span>))
+            .navigationBarTitle(<span style="color:#e6db74">&#34;SwiftUI Themes&#34;</span>, displayMode: .inline)
+            .navigationBarItems(trailing: Button(action: {
+                
+                <span style="color:#66d9ef">let</span> currentTheme = AppSettings.shared.currentTheme
+                AppSettings.shared.currentTheme = currentTheme == .light ? .dark : .light
+                
+            }, label: {
+                Image(systemName: AppSettings.shared.currentTheme == .light ? <span style="color:#e6db74">&#34;moon&#34;</span> : <span style="color:#e6db74">&#34;moon.fill&#34;</span>)
+                    .resizable()
+                    .scaledToFit()
+            }))
+        }
+    }
+}
+
+</code></pre></div><p>In this view, when user taps on the navigation bar button, we toggle between light &amp; dark theme. We update this value in <code>AppSettings</code>. When you press on that button now, nothing happens. This is because our view is unaware about the changes in our source of truth. We will fix this in next step.</p>
+<h2 id="color-scheme">Color Scheme<a hidden class="anchor" aria-hidden="true" href="#color-scheme">#</a></h2>
+<p>First lets talk about how we can change the color scheme in SwiftUI. It provides two modifiers for changing the color scheme i.e <code>colorScheme</code> &amp; <code>preferredColorScheme</code>. If you look into their documentation, there is a small difference between these two modifiers.</p>
+<p><code>colorScheme</code> gets applied to view &amp; its subviews. So if you apply colorScheme to <code>VStack</code>, everything inside <code>VStack</code> also gets same scheme.</p>
+<p><code>preferredColorScheme</code> is same as colorScheme but it also gets applied to nearest enclosing presentation. In simple word, its nearest parent. Since our <code>FirstView</code> is enclosed by <code>WindowGroup</code> and we want color scheme changes to be reflected in status bar, we are going to use this. Lets add the code to change the color scheme.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">
+@main
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">MyApp</span>: App {
+
+    @ObservedObject <span style="color:#66d9ef">var</span> appSettings = AppSettings.shared
+    
+    <span style="color:#66d9ef">var</span> body: some Scene {
+        WindowGroup {
+            FirstView()
+                .preferredColorScheme(appSettings.currentTheme.colorScheme)
+        }
+    }
+}
+
+</code></pre></div><p>Here, we create our <code>AppSettings</code> instance as an ObservedObject. This is so that our view can react to the changes published by <code>AppSettings</code> instance. Then we add <code>preferredColorScheme</code> modifier to our main view. The value for the <code>ColorScheme</code> parameter is obtained from the app settings.</p>
+<p>That&rsquo;s it. Now if you run the app, you can see that our view reacts to the theme changes.</p>
+
+ 
+
+<video width=30% style="display:block;margin:auto;" controls>
+    <source src="/videos/dark-mode-swiftui.mp4" type="video/mp4">
+    Your browser does not support the video tag.  
+</video>
+
+
+<hr>
+<p>Follow me on Twitter: <a href="https://twitter.com/nrlnishan">@nrlnishan</a></p>
+<p>Love this article? You can also buy me: <a href="https://www.buymeacoffee.com/nrlnishan">A Coffee ☕</a></p>
+
+</div>
+  <footer class="post-footer">
+  </footer>
+</article>
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://nrlnishan.github.io/">Nishan&#39;s Blog</a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
+    <span>&middot;</span>
+    <span>Theme <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)">
+    <button class="top-link" id="top-link" type="button" accesskey="g">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6">
+            <path d="M12 6H0l6-6z" />
+        </svg>
+    </button>
+</a>
+
+
+
+<script defer src="https://nrlnishan.github.io/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js" integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                behavior: "smooth"
+            });
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.replaceState(null, null, `#${id}`);
+            }
+        });
+    });
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+</body>
+
+</html>
