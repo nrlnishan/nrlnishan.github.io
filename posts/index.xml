@@ -6,7 +6,16 @@
     <description>Recent content in Posts on Nishan&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 13 Jan 2021 21:46:48 +0700</lastBuildDate><atom:link href="https://nrlnishan.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 May 2021 17:17:10 +0700</lastBuildDate><atom:link href="https://nrlnishan.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dark Mode in SwiftUI App</title>
+      <link>https://nrlnishan.github.io/posts/dark-mode-swiftui/</link>
+      <pubDate>Thu, 27 May 2021 17:17:10 +0700</pubDate>
+      
+      <guid>https://nrlnishan.github.io/posts/dark-mode-swiftui/</guid>
+      <description>If you have created a new SwiftUI project recently, you might have noticed that your AppDelegate &amp;amp; SceneDelegate files are gone. Instead it gets replaced by App struct which acts as the entry point for your app. In UIKit projects, to override the theme for whole app, we could access the overrideUserInterfaceStyle of window and set it to appropriate style. Let&amp;rsquo;s learn how to switch between themes in a SwiftUI way.</description>
+    </item>
+    
     <item>
       <title>SwiftUI Journey</title>
       <link>https://nrlnishan.github.io/posts/learn-swiftui/</link>
