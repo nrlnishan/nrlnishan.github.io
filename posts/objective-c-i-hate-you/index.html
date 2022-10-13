@@ -13,7 +13,7 @@
 When i started my career in iOS development, Swift 2.0 was just out. The company that i worked for adopted it early and i got the opportunity to use swift in its early days.">
 <meta name="author" content="">
 <link rel="canonical" href="https://nrlnishan.github.io/posts/objective-c-i-hate-you/" />
-<link href="https://nrlnishan.github.io/assets/css/stylesheet.min.19d8234f7520f2216aca845b9f292982671403accc7e754ceb099b228a5980fe.css" integrity="sha256-GdgjT3Ug8iFqyoRbnykpgmcUA6zMfnVM6wmbIopZgP4=" rel="preload stylesheet"
+<link href="https://nrlnishan.github.io/assets/css/stylesheet.min.f1a5d0a6e90ef9f5ba7f32b9912dfa0ab625a28f1e6d966de8ce7309cf1b9fbd.css" integrity="sha256-8aXQpukO&#43;fW6fzK5kS36CrYloo8ebZZt6M5zCc8bn70=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://nrlnishan.github.io/favicon.ico">
@@ -23,7 +23,7 @@ When i started my career in iOS development, Swift 2.0 was just out. The company
 <link rel="mask-icon" href="https://nrlnishan.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.80.0" />
+<meta name="generator" content="Hugo 0.104.3" />
 
 
 <meta property="og:title" content="Objective-C : P.S. I still hate you" />
@@ -50,7 +50,7 @@ When i started my career in iOS development, Swift 2.0 was just out. The company
   "keywords": [
     
   ],
-  "articleBody": "My rant on why i hate objective-c. This article is not the comparison between Swift and Objective-C. I have been working on a project written in obj-c these days and it reminded me how fond i have grown of writing code in swift and some of the reasons why i hated obj-c.\n…\nWhen i started my career in iOS development, Swift 2.0 was just out. The company that i worked for adopted it early and i got the opportunity to use swift in its early days. But unlike today, almost all the iOS tutorials that you can find were written in obj-c. All the company projects, many third party libraries \u0026 frameworks were in obj-c so i had no choice other than learning obj-c alongside swift. Even though i hated it at that time, learning both language proved to be a worthwhile investment.\nThen swift started getting popular and many companies started adopting it. New apps were being written in swift. Tutorials were migrated to Swift. One of the reasons that i believe why swift got popular is that it is easier to learn for beginner. I remember struggling with obj-c syntax when i started:\n// Swift let map = [String: Person]() // Objective C NSMutableDictionaryNSString *, Person * *map = [NSMutableDictionary new]; Slowly more and more projects that i worked on were in swift and i started loving swift more than obj-c. Don’t get me wrong, obj-c is a very powerful language but it’s very easy to get things wrong in obj-c than swift.\n The special switch: Recently i have been working on a project written in objective c and it brought back memories of why i hated obj-c. Since i write most of the code in swift these days, whenever i have to write code in obj-c, my brain has to constantly switch context between obj-c \u0026 swift. Many times i find myself trying to do something in a way that i do in swift, like calling method using (dot) notation, using String instead of NSString etc.\n// Swift article.publish() // Objective C [article publish]; Another example for weird syntax is switch statement in obj-c.\nswitch(value) { case EnumA: NSLog(@\"This is medium article\"); break; case EnumB: Article *mediumArticle = [[Article alloc] init]; break; } As soon as you write this, compiler will start throwing you error in case B. Why? Because if you want to create a variable in switch case, it needs to be wrapped in { }. I made this exact mistake and lost one hour trying to figure out why the switch case was not working. Then feeling embarrassed after realizing my mistake.\nswitch(value) { case EnumA: NSLog(@\"This is case 1\"); break; case EnumB: { Article *mediumArticle = [[Article alloc] init]; break; } } // This works YAY!! 🎉 Also having to create .h \u0026 .m file for each class, different attributes for properties, ivars, weird method signature, primitive enums, not having proper access modifiers, circular import issue are some of the things that i don’t enjoy in objective-c.\n To set or not to set: As i said earlier, it’s very easy to get things wrong in objective c. Let me show you. If you declare a property named comment and a method named setComment as shown below, it will cause your app to crash when you call that method.\n@property (nonatomic) NSString *comment; - (void)setComment:(NSString *myComment) { self.comment = myComment; } Why? Find it out yourself 🧐 Hint: It has something to do with how property works in obj-c.\n The curious case of obj-c nil: Sometimes the way how obj-c works can introduce some weird bug in your code. Let me share you one of the recent bugs of mine. I had some enum declared and a property of that enum type.\ntypedef NS_ENUM(NSInteger, Mood) { MoodHappy, MoodSad }; …\n@property (nonatomic) EnumMood myMood; The value for this property was set:MoodSad. Somewhere in my code, i had to hold the weak reference of self. And then access this enum using that weakSelf reference.\n__weak typeof(self) weakSelf; switch (weakSelf.myMood) { case MoodHappy: NSLog(@\"My mood is happy\"); break; case MoodSad: NSLog(@\"My mood is sad\"); break; } Bugs, Bugs, Everywhere 🐛 🐛 Even though the value for property myMood was always set to MoodSad, the code never reached the case for MoodSad. In fact, now matter how many cases there were for enum, the code always executed for the first case in our enum i.e MoodHappy. Before explaining what mistake i made, i want to tell you something interesting about objective c. In objective c, it’s perfectly valid to send a message to nil. i.e Even if your object is nil and you execute its method, instead of crashing, it has no effect at runtime.\nArticle *mediumArticle; // Object is not allocated. So its nil [mediumArticle publish]; // No Effect If above method publish returned object, then the returned value would be 0 (i.e nil). In my case, i made a typo. My weakSelf was nil.\n__weak typeof(self) weakSelf; // Incorrect __weak typeof(self) weakSelf = self; // Correct So when i tried to access myMood enum value, it always returned 0 (nil). But in the realm of obj-c enums, the value for the first enum case is 0, second is 1 and so on. As a result, my switch statement always executed statement for enum case with value 0 i.e MoodHappy. Another hour wasted on this typo bug.\n…\nObjective-C is one of the oldest and powerful language that still powers some fundamental frameworks that we use in iOS development. But still i prefer Swift to Objective-C. Hope you enjoyed reading.\n",
+  "articleBody": "My rant on why i hate objective-c. This article is not the comparison between Swift and Objective-C. I have been working on a project written in obj-c these days and it reminded me how fond i have grown of writing code in swift and some of the reasons why i hated obj-c.\n…\nWhen i started my career in iOS development, Swift 2.0 was just out. The company that i worked for adopted it early and i got the opportunity to use swift in its early days. But unlike today, almost all the iOS tutorials that you can find were written in obj-c. All the company projects, many third party libraries \u0026 frameworks were in obj-c so i had no choice other than learning obj-c alongside swift. Even though i hated it at that time, learning both language proved to be a worthwhile investment.\nThen swift started getting popular and many companies started adopting it. New apps were being written in swift. Tutorials were migrated to Swift. One of the reasons that i believe why swift got popular is that it is easier to learn for beginner. I remember struggling with obj-c syntax when i started:\n// Swift let map = [String: Person]() // Objective C NSMutableDictionary\u003cNSString *, Person *\u003e *map = [NSMutableDictionary new]; Slowly more and more projects that i worked on were in swift and i started loving swift more than obj-c. Don’t get me wrong, obj-c is a very powerful language but it’s very easy to get things wrong in obj-c than swift.\nThe special switch: Recently i have been working on a project written in objective c and it brought back memories of why i hated obj-c. Since i write most of the code in swift these days, whenever i have to write code in obj-c, my brain has to constantly switch context between obj-c \u0026 swift. Many times i find myself trying to do something in a way that i do in swift, like calling method using (dot) notation, using String instead of NSString etc.\n// Swift article.publish() // Objective C [article publish]; Another example for weird syntax is switch statement in obj-c.\nswitch(value) { case EnumA: NSLog(@\"This is medium article\"); break; case EnumB: Article *mediumArticle = [[Article alloc] init]; break; } As soon as you write this, compiler will start throwing you error in case B. Why? Because if you want to create a variable in switch case, it needs to be wrapped in { }. I made this exact mistake and lost one hour trying to figure out why the switch case was not working. Then feeling embarrassed after realizing my mistake.\nswitch(value) { case EnumA: NSLog(@\"This is case 1\"); break; case EnumB: { Article *mediumArticle = [[Article alloc] init]; break; } } // This works YAY!! 🎉 Also having to create .h \u0026 .m file for each class, different attributes for properties, ivars, weird method signature, primitive enums, not having proper access modifiers, circular import issue are some of the things that i don’t enjoy in objective-c.\nTo set or not to set: As i said earlier, it’s very easy to get things wrong in objective c. Let me show you. If you declare a property named comment and a method named setComment as shown below, it will cause your app to crash when you call that method.\n@property (nonatomic) NSString *comment; - (void)setComment:(NSString *myComment) { self.comment = myComment; } Why? Find it out yourself 🧐 Hint: It has something to do with how property works in obj-c.\nThe curious case of obj-c nil: Sometimes the way how obj-c works can introduce some weird bug in your code. Let me share you one of the recent bugs of mine. I had some enum declared and a property of that enum type.\ntypedef NS_ENUM(NSInteger, Mood) { MoodHappy, MoodSad }; …\n@property (nonatomic) EnumMood myMood; The value for this property was set:MoodSad. Somewhere in my code, i had to hold the weak reference of self. And then access this enum using that weakSelf reference.\n__weak typeof(self) weakSelf; switch (weakSelf.myMood) { case MoodHappy: NSLog(@\"My mood is happy\"); break; case MoodSad: NSLog(@\"My mood is sad\"); break; } Bugs, Bugs, Everywhere 🐛 🐛 Even though the value for property myMood was always set to MoodSad, the code never reached the case for MoodSad. In fact, now matter how many cases there were for enum, the code always executed for the first case in our enum i.e MoodHappy. Before explaining what mistake i made, i want to tell you something interesting about objective c. In objective c, it’s perfectly valid to send a message to nil. i.e Even if your object is nil and you execute its method, instead of crashing, it has no effect at runtime.\nArticle *mediumArticle; // Object is not allocated. So its nil [mediumArticle publish]; // No Effect If above method publish returned object, then the returned value would be 0 (i.e nil). In my case, i made a typo. My weakSelf was nil.\n__weak typeof(self) weakSelf; // Incorrect __weak typeof(self) weakSelf = self; // Correct So when i tried to access myMood enum value, it always returned 0 (nil). But in the realm of obj-c enums, the value for the first enum case is 0, second is 1 and so on. As a result, my switch statement always executed statement for enum case with value 0 i.e MoodHappy. Another hour wasted on this typo bug.\n…\nObjective-C is one of the oldest and powerful language that still powers some fundamental frameworks that we use in iOS development. But still i prefer Swift to Objective-C. Hope you enjoyed reading.\n",
   "wordCount" : "935",
   "inLanguage": "en",
   "datePublished": "2020-09-04T22:25:52+07:00",
@@ -159,78 +159,78 @@ When i started my career in iOS development, Swift 2.0 was just out. The company
 <p>&hellip;</p>
 <p>When i started my career in iOS development, Swift 2.0 was just out. The company that i worked for adopted it early and i got the opportunity to use swift in its early days. But unlike today, almost all the iOS tutorials that you can find were written in obj-c. All the company projects, many third party libraries &amp; frameworks were in obj-c so i had no choice other than learning obj-c alongside swift. Even though i hated it at that time, learning both language proved to be a worthwhile investment.</p>
 <p>Then swift started getting popular and many companies started adopting it. New apps were being written in swift. Tutorials were migrated to Swift. One of the reasons that i believe why swift got popular is that it is easier to learn for beginner. I remember struggling with obj-c syntax when i started:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#75715e">// Swift</span>
-<span style="color:#66d9ef">let</span> map = [String: Person]() 
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#75715e">// Objective C
-</span><span style="color:#75715e"></span>NSMutableDictionary<span style="color:#f92672">&lt;</span>NSString <span style="color:#f92672">*</span>, Person <span style="color:#f92672">*&gt;</span> <span style="color:#f92672">*</span>map <span style="color:#f92672">=</span> [NSMutableDictionary new];
-</code></pre></div><p>Slowly more and more projects that i worked on were in swift and i started loving swift more than obj-c. Don&rsquo;t get me wrong, obj-c is a very powerful language but it&rsquo;s very easy to get things wrong in obj-c than swift.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Swift</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> map = [String: Person]() 
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objc" data-lang="objc"><span style="display:flex;"><span><span style="color:#75715e">// Objective C
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>NSMutableDictionary<span style="color:#f92672">&lt;</span>NSString <span style="color:#f92672">*</span>, Person <span style="color:#f92672">*&gt;</span> <span style="color:#f92672">*</span>map <span style="color:#f92672">=</span> [NSMutableDictionary new];
+</span></span></code></pre></div><p>Slowly more and more projects that i worked on were in swift and i started loving swift more than obj-c. Don&rsquo;t get me wrong, obj-c is a very powerful language but it&rsquo;s very easy to get things wrong in obj-c than swift.</p>
 <hr>
 <h3 id="the-specialswitch">The special switch:<a hidden class="anchor" aria-hidden="true" href="#the-specialswitch">#</a></h3>
 <p>Recently i have been working on a project written in objective c and it brought back memories of why i hated obj-c. Since i write most of the code in swift these days, whenever i have to write code in obj-c, my brain has to constantly switch context between obj-c &amp; swift. Many times i find myself trying to do something in a way that i do in swift, like calling method using (dot) notation, using String instead of NSString etc.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#75715e">// Swift</span>
-article.publish()
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#75715e">// Objective C
-</span><span style="color:#75715e"></span>[article publish];
-</code></pre></div><p>Another example for weird syntax is switch statement in obj-c.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#66d9ef">switch</span>(value) {
-    <span style="color:#66d9ef">case</span> EnumA:
-        NSLog(<span style="color:#e6db74">@&#34;This is medium article&#34;</span>);
-        <span style="color:#66d9ef">break</span>;
-    <span style="color:#66d9ef">case</span> EnumB: 
-        Article <span style="color:#f92672">*</span>mediumArticle <span style="color:#f92672">=</span> [[Article alloc] init];
-        <span style="color:#66d9ef">break</span>;
-}
-</code></pre></div><p>As soon as you write this, compiler will start throwing you error in case B. Why? Because if you want to create a variable in switch case, it needs to be wrapped in { }. I made this exact mistake and lost one hour trying to figure out why the switch case was not working. Then feeling embarrassed after realizing my mistake.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#66d9ef">switch</span>(value) {
-    <span style="color:#66d9ef">case</span> EnumA:
-        NSLog(<span style="color:#e6db74">@&#34;This is case 1&#34;</span>);
-        <span style="color:#66d9ef">break</span>;
-    <span style="color:#66d9ef">case</span> EnumB: {
-        Article <span style="color:#f92672">*</span>mediumArticle <span style="color:#f92672">=</span> [[Article alloc] init];
-        <span style="color:#66d9ef">break</span>;
-    }
-}
-<span style="color:#75715e">// This works YAY!! 🎉 
-</span></code></pre></div><p>Also having to create .h &amp; .m file for each class, different attributes for properties, ivars, weird method signature, primitive enums, not having proper access modifiers, circular import issue are some of the things that i don&rsquo;t enjoy in objective-c.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// Swift</span>
+</span></span><span style="display:flex;"><span>article.publish()
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objc" data-lang="objc"><span style="display:flex;"><span><span style="color:#75715e">// Objective C
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>[article publish];
+</span></span></code></pre></div><p>Another example for weird syntax is switch statement in obj-c.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objc" data-lang="objc"><span style="display:flex;"><span><span style="color:#66d9ef">switch</span>(value) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> EnumA:
+</span></span><span style="display:flex;"><span>        NSLog(<span style="color:#e6db74">@&#34;This is medium article&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> EnumB: 
+</span></span><span style="display:flex;"><span>        Article <span style="color:#f92672">*</span>mediumArticle <span style="color:#f92672">=</span> [[Article alloc] init];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>As soon as you write this, compiler will start throwing you error in case B. Why? Because if you want to create a variable in switch case, it needs to be wrapped in { }. I made this exact mistake and lost one hour trying to figure out why the switch case was not working. Then feeling embarrassed after realizing my mistake.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objc" data-lang="objc"><span style="display:flex;"><span><span style="color:#66d9ef">switch</span>(value) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> EnumA:
+</span></span><span style="display:flex;"><span>        NSLog(<span style="color:#e6db74">@&#34;This is case 1&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> EnumB: {
+</span></span><span style="display:flex;"><span>        Article <span style="color:#f92672">*</span>mediumArticle <span style="color:#f92672">=</span> [[Article alloc] init];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// This works YAY!! 🎉 
+</span></span></span></code></pre></div><p>Also having to create .h &amp; .m file for each class, different attributes for properties, ivars, weird method signature, primitive enums, not having proper access modifiers, circular import issue are some of the things that i don&rsquo;t enjoy in objective-c.</p>
 <hr>
 <h3 id="to-set-or-not-toset">To set or not to set:<a hidden class="anchor" aria-hidden="true" href="#to-set-or-not-toset">#</a></h3>
 <p>As i said earlier, it&rsquo;s very easy to get things wrong in objective c. Let me show you.
 If you declare a property named comment and a method named setComment as shown below, it will cause your app to crash when you call that method.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#66d9ef">@property</span> (<span style="color:#66d9ef">nonatomic</span>) NSString <span style="color:#f92672">*</span>comment; 
-- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">setComment:</span>(NSString <span style="color:#f92672">*</span>myComment) {
-      self.comment <span style="color:#f92672">=</span> myComment;
-}
-</code></pre></div><p>Why? Find it out yourself 🧐
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objc" data-lang="objc"><span style="display:flex;"><span><span style="color:#66d9ef">@property</span> (<span style="color:#66d9ef">nonatomic</span>) NSString <span style="color:#f92672">*</span>comment; 
+</span></span><span style="display:flex;"><span>- (<span style="color:#66d9ef">void</span>)<span style="color:#a6e22e">setComment:</span>(NSString <span style="color:#f92672">*</span>myComment) {
+</span></span><span style="display:flex;"><span>      self.comment <span style="color:#f92672">=</span> myComment;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Why? Find it out yourself 🧐
 Hint: It has something to do with how property works in obj-c.</p>
 <hr>
 <h3 id="the-curious-case-of-obj-cnil">The curious case of obj-c nil:<a hidden class="anchor" aria-hidden="true" href="#the-curious-case-of-obj-cnil">#</a></h3>
 <p>Sometimes the way how obj-c works can introduce some weird bug in your code. Let me share you one of the recent bugs of mine.
 I had some enum declared and a property of that enum type.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">NS_ENUM</span>(NSInteger, Mood) {
-    MoodHappy,
-    MoodSad
-};
-</code></pre></div><p>&hellip;</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#66d9ef">@property</span> (<span style="color:#66d9ef">nonatomic</span>) EnumMood myMood;
-</code></pre></div><p>The value for this property was set:MoodSad. Somewhere in my code, i had to hold the weak reference of self. And then access this enum using that weakSelf reference.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#66d9ef">__weak</span> <span style="color:#a6e22e">typeof</span>(self) weakSelf;
-<span style="color:#66d9ef">switch</span> (weakSelf.myMood) {
-    <span style="color:#66d9ef">case</span> MoodHappy:
-        NSLog(<span style="color:#e6db74">@&#34;My mood is happy&#34;</span>);
-        <span style="color:#66d9ef">break</span>;
-    <span style="color:#66d9ef">case</span> MoodSad:
-        NSLog(<span style="color:#e6db74">@&#34;My mood is sad&#34;</span>);
-        <span style="color:#66d9ef">break</span>;
-}
-</code></pre></div><h4 id="bugs-bugs-everywhere-">Bugs, Bugs, Everywhere 🐛 🐛<a hidden class="anchor" aria-hidden="true" href="#bugs-bugs-everywhere-">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objc" data-lang="objc"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">NS_ENUM</span>(NSInteger, Mood) {
+</span></span><span style="display:flex;"><span>    MoodHappy,
+</span></span><span style="display:flex;"><span>    MoodSad
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objc" data-lang="objc"><span style="display:flex;"><span><span style="color:#66d9ef">@property</span> (<span style="color:#66d9ef">nonatomic</span>) EnumMood myMood;
+</span></span></code></pre></div><p>The value for this property was set:MoodSad. Somewhere in my code, i had to hold the weak reference of self. And then access this enum using that weakSelf reference.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objc" data-lang="objc"><span style="display:flex;"><span><span style="color:#66d9ef">__weak</span> <span style="color:#a6e22e">typeof</span>(self) weakSelf;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">switch</span> (weakSelf.myMood) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> MoodHappy:
+</span></span><span style="display:flex;"><span>        NSLog(<span style="color:#e6db74">@&#34;My mood is happy&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> MoodSad:
+</span></span><span style="display:flex;"><span>        NSLog(<span style="color:#e6db74">@&#34;My mood is sad&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="bugs-bugs-everywhere-">Bugs, Bugs, Everywhere 🐛 🐛<a hidden class="anchor" aria-hidden="true" href="#bugs-bugs-everywhere-">#</a></h4>
 <p>Even though the value for property myMood was always set to MoodSad, the code never reached the case for MoodSad. In fact, now matter how many cases there were for enum, the code always executed for the first case in our enum i.e MoodHappy.
 Before explaining what mistake i made, i want to tell you something interesting about objective c. In objective c, it&rsquo;s perfectly valid to send a message to nil. i.e Even if your object is nil and you execute its method, instead of crashing, it has no effect at runtime.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc">Article <span style="color:#f92672">*</span>mediumArticle; <span style="color:#75715e">// Object is not allocated. So its nil
-</span><span style="color:#75715e"></span>[mediumArticle publish]; <span style="color:#75715e">// No Effect
-</span></code></pre></div><p>If above method <code>publish</code> returned object, then the returned value would be 0 (i.e nil). In my case, i made a typo. My weakSelf was nil.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-objc" data-lang="objc"><span style="color:#66d9ef">__weak</span> <span style="color:#a6e22e">typeof</span>(self) weakSelf; <span style="color:#75715e">// Incorrect
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">__weak</span> <span style="color:#a6e22e">typeof</span>(self) weakSelf <span style="color:#f92672">=</span> self; <span style="color:#75715e">// Correct 
-</span></code></pre></div><p>So when i tried to access myMood enum value, it always returned 0 (nil). But in the realm of obj-c enums, the value for the first enum case is 0, second is 1 and so on.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objc" data-lang="objc"><span style="display:flex;"><span>Article <span style="color:#f92672">*</span>mediumArticle; <span style="color:#75715e">// Object is not allocated. So its nil
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>[mediumArticle publish]; <span style="color:#75715e">// No Effect
+</span></span></span></code></pre></div><p>If above method <code>publish</code> returned object, then the returned value would be 0 (i.e nil). In my case, i made a typo. My weakSelf was nil.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-objc" data-lang="objc"><span style="display:flex;"><span><span style="color:#66d9ef">__weak</span> <span style="color:#a6e22e">typeof</span>(self) weakSelf; <span style="color:#75715e">// Incorrect
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">__weak</span> <span style="color:#a6e22e">typeof</span>(self) weakSelf <span style="color:#f92672">=</span> self; <span style="color:#75715e">// Correct 
+</span></span></span></code></pre></div><p>So when i tried to access myMood enum value, it always returned 0 (nil). But in the realm of obj-c enums, the value for the first enum case is 0, second is 1 and so on.
 As a result, my switch statement always executed statement for enum case with value 0 i.e MoodHappy. Another hour wasted on this typo bug.</p>
 <p>&hellip;</p>
 <p>Objective-C is one of the oldest and powerful language that still powers some fundamental frameworks that we use in iOS development. But still i prefer Swift to Objective-C.
@@ -241,7 +241,7 @@ Hope you enjoyed reading.</p>
   </footer>
 </article>
     </main><footer class="footer">
-    <span>&copy; 2021 <a href="https://nrlnishan.github.io/">Nishan&#39;s Blog</a></span>
+    <span>&copy; 2022 <a href="https://nrlnishan.github.io/">Nishan&#39;s Blog</a></span>
     <span>&middot;</span>
     <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
     <span>&middot;</span>
@@ -257,7 +257,7 @@ Hope you enjoyed reading.</p>
 
 
 
-<script defer src="https://nrlnishan.github.io/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js" integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w="
+<script defer src="https://nrlnishan.github.io/assets/js/highlight.min.b95bacdc39e37a332a9f883b1e78be4abc1fdca2bc1f2641f55e3cd3dabd4d61.js" integrity="sha256-uVus3DnjejMqn4g7Hni&#43;Srwf3KK8HyZB9V4809q9TWE="
     onload="hljs.initHighlightingOnLoad();"></script>
 <script>
     window.onload = function () {

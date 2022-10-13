@@ -12,7 +12,7 @@
 struct AppSettings { // Update the respective value in UserDefault static var isDarkModeEnabled = false { didSet { UserDefaults.">
 <meta name="author" content="">
 <link rel="canonical" href="https://nrlnishan.github.io/posts/property-wrappers/" />
-<link href="https://nrlnishan.github.io/assets/css/stylesheet.min.19d8234f7520f2216aca845b9f292982671403accc7e754ceb099b228a5980fe.css" integrity="sha256-GdgjT3Ug8iFqyoRbnykpgmcUA6zMfnVM6wmbIopZgP4=" rel="preload stylesheet"
+<link href="https://nrlnishan.github.io/assets/css/stylesheet.min.f1a5d0a6e90ef9f5ba7f32b9912dfa0ab625a28f1e6d966de8ce7309cf1b9fbd.css" integrity="sha256-8aXQpukO&#43;fW6fzK5kS36CrYloo8ebZZt6M5zCc8bn70=" rel="preload stylesheet"
     as="style">
 
 <link rel="icon" href="https://nrlnishan.github.io/favicon.ico">
@@ -22,7 +22,7 @@ struct AppSettings { // Update the respective value in UserDefault static var is
 <link rel="mask-icon" href="https://nrlnishan.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<meta name="generator" content="Hugo 0.80.0" />
+<meta name="generator" content="Hugo 0.104.3" />
 
 
 <meta property="og:title" content="Learn about Property Wrappers in Swift" />
@@ -47,7 +47,7 @@ struct AppSettings { // Update the respective value in UserDefault static var is
   "keywords": [
     "swift", "property-wrappers"
   ],
-  "articleBody": "Swift 5.1 introduced an interesting concept called Property Wrappers. As the name suggests, it creates a wrapper around any plain old properties in struct , class or enum and enhance their abilities. Let’s dive right into code. Almost every app out there saves some kind of information in UserDefaults. The common approach to do that would be:\nstruct AppSettings { // Update the respective value in UserDefault static var isDarkModeEnabled = false { didSet { UserDefaults.standard.setValue(isDarkModeEnabled, forKey: \"is_dark_mode_enabled\") } } } Store some value in user defaults when property gets updatedThis is the easiest approach and it works fine. But what if we have more than 1 property to save? Yes, there are many ways we can simplify this but let’s try the magic of property wrapper this time.\nHow it works: Property Wrapper simply wraps the original property. Inside this wrapper, you can specify what you want to do when user tries to set the value or read the value from original property. In our case, we will store the value in UserDefaults when user sets the value on original property. Similarly, when user tries the read the value, we will return the stored value from same UserDefaults. Let’s create our very first Property Wrapper.\n@propertyWrapper struct Store { // Key for UserDefaults var key: String // This is the special variable required in Property Wrapper. var wrappedValue: Bool { set { UserDefaults.standard.set(newValue, forKey: key) } get { UserDefaults.standard.value(forKey: key) as? Bool ?? false } } init(key: String) { self.key = key } } // Now we can simplify our AppSettings struct as struct AppSettings { @Store(key: \"is_dark_mode_enabled\") static var isDarkModeEnabled: Bool } // value `true` is automatically stored in user defaults with key `is_dark_mode_enabled` AppSettings.isDarkModeEnabled = true Let’s break down the steps: First we create a struct called Store. @propertyWrapper keyword declares that this struct is actually a property wrapper. wrappedValue is a special variable required in Property Wrapper. When we try to read the value of the property, it actually returns the value provided by this wrappedValue variable. Similarly when we try to set the value of the original property, it actually sets the value for this wrappedValue. Since we need some key to store the value in UserDefaults, we ask for that during initialization. Using property wrapper is really easy. Just add @Store prefix to any property. That’s it.\nWhere’s the magic?? The magic happens in this line. AppSettings.isDarkModeEnabled = true Whenever we set the value, it automatically gets stored in UserDefaults with key “is_dark_mode_enabled”. When we try to read the value, it returns the stored value from same UserDefaults.\nBut… Our Property Wrapper can work with only Boolean property at this time. Also the default wrapped value is always false. Let’s change that.\nHere we ask user to provide both key as well as default value when using this Property Wrapper. We use this key to save or retrieve value in UserDefaults. We return the defaultValue, if nothing is found in UserDefaults. With the power of Generics, now this PropertyWrapper can be used with any type of property. Our 10 minutes is Up 👍.\n You can learn more about the Property Wrapper from https://docs.swift.org/swift-book/LanguageGuide/Properties.html\n",
+  "articleBody": "Swift 5.1 introduced an interesting concept called Property Wrappers. As the name suggests, it creates a wrapper around any plain old properties in struct , class or enum and enhance their abilities. Let’s dive right into code. Almost every app out there saves some kind of information in UserDefaults. The common approach to do that would be:\nstruct AppSettings { // Update the respective value in UserDefault static var isDarkModeEnabled = false { didSet { UserDefaults.standard.setValue(isDarkModeEnabled, forKey: \"is_dark_mode_enabled\") } } } Store some value in user defaults when property gets updatedThis is the easiest approach and it works fine. But what if we have more than 1 property to save? Yes, there are many ways we can simplify this but let’s try the magic of property wrapper this time.\nHow it works: Property Wrapper simply wraps the original property. Inside this wrapper, you can specify what you want to do when user tries to set the value or read the value from original property. In our case, we will store the value in UserDefaults when user sets the value on original property. Similarly, when user tries the read the value, we will return the stored value from same UserDefaults. Let’s create our very first Property Wrapper.\n@propertyWrapper struct Store { // Key for UserDefaults var key: String // This is the special variable required in Property Wrapper. var wrappedValue: Bool { set { UserDefaults.standard.set(newValue, forKey: key) } get { UserDefaults.standard.value(forKey: key) as? Bool ?? false } } init(key: String) { self.key = key } } // Now we can simplify our AppSettings struct as struct AppSettings { @Store(key: \"is_dark_mode_enabled\") static var isDarkModeEnabled: Bool } // value `true` is automatically stored in user defaults with key `is_dark_mode_enabled` AppSettings.isDarkModeEnabled = true Let’s break down the steps: First we create a struct called Store. @propertyWrapper keyword declares that this struct is actually a property wrapper. wrappedValue is a special variable required in Property Wrapper. When we try to read the value of the property, it actually returns the value provided by this wrappedValue variable. Similarly when we try to set the value of the original property, it actually sets the value for this wrappedValue. Since we need some key to store the value in UserDefaults, we ask for that during initialization. Using property wrapper is really easy. Just add @Store prefix to any property. That’s it.\nWhere’s the magic?? The magic happens in this line. AppSettings.isDarkModeEnabled = true Whenever we set the value, it automatically gets stored in UserDefaults with key “is_dark_mode_enabled”. When we try to read the value, it returns the stored value from same UserDefaults.\nBut… Our Property Wrapper can work with only Boolean property at this time. Also the default wrapped value is always false. Let’s change that.\nHere we ask user to provide both key as well as default value when using this Property Wrapper. We use this key to save or retrieve value in UserDefaults. We return the defaultValue, if nothing is found in UserDefaults. With the power of Generics, now this PropertyWrapper can be used with any type of property. Our 10 minutes is Up 👍.\nYou can learn more about the Property Wrapper from https://docs.swift.org/swift-book/LanguageGuide/Properties.html\n",
   "wordCount" : "529",
   "inLanguage": "en",
   "datePublished": "2020-05-20T21:56:51+07:00",
@@ -153,43 +153,43 @@ struct AppSettings { // Update the respective value in UserDefault static var is
   <div class="post-content">
 <p>Swift 5.1 introduced an interesting concept called Property Wrappers. As the name suggests, it creates a wrapper around any plain old properties in struct , class or enum and enhance their abilities. Let&rsquo;s dive right into code.
 Almost every app out there saves some kind of information in UserDefaults. The common approach to do that would be:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AppSettings</span> {
-    <span style="color:#75715e">// Update the respective value in UserDefault</span>
-    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">var</span> isDarkModeEnabled = <span style="color:#66d9ef">false</span> {
-        <span style="color:#66d9ef">didSet</span> {
-            UserDefaults.standard.setValue(isDarkModeEnabled, forKey: <span style="color:#e6db74">&#34;is_dark_mode_enabled&#34;</span>)
-        }
-    }
-}
-</code></pre></div><p>Store some value in user defaults when property gets updatedThis is the easiest approach and it works fine. But what if we have more than 1 property to save? Yes, there are many ways we can simplify this but let&rsquo;s try the magic of property wrapper this time.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AppSettings</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Update the respective value in UserDefault</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">var</span> isDarkModeEnabled = <span style="color:#66d9ef">false</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">didSet</span> {
+</span></span><span style="display:flex;"><span>            UserDefaults.standard.setValue(isDarkModeEnabled, forKey: <span style="color:#e6db74">&#34;is_dark_mode_enabled&#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Store some value in user defaults when property gets updatedThis is the easiest approach and it works fine. But what if we have more than 1 property to save? Yes, there are many ways we can simplify this but let&rsquo;s try the magic of property wrapper this time.</p>
 <h3 id="how-itworks">How it works:<a hidden class="anchor" aria-hidden="true" href="#how-itworks">#</a></h3>
 <p>Property Wrapper simply wraps the original property. Inside this wrapper, you can specify what you want to do when user tries to set the value or read the value from original property.
 In our case, we will store the value in UserDefaults when user sets the value on original property. Similarly, when user tries the read the value, we will return the stored value from same UserDefaults. Let&rsquo;s create our very first Property Wrapper.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift">@propertyWrapper
-<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Store</span> {
-
-    <span style="color:#75715e">// Key for UserDefaults</span>
-    <span style="color:#66d9ef">var</span> key: String
-    
-    <span style="color:#75715e">// This is the special variable required in Property Wrapper.</span>
-    <span style="color:#66d9ef">var</span> wrappedValue: Bool {
-        <span style="color:#66d9ef">set</span> { UserDefaults.standard.<span style="color:#66d9ef">set</span>(newValue, forKey: key) }
-        <span style="color:#66d9ef">get</span> { UserDefaults.standard.value(forKey: key) <span style="color:#66d9ef">as</span>? Bool ?? <span style="color:#66d9ef">false</span> }
-    }
-    
-    <span style="color:#66d9ef">init</span>(key: String) {
-        <span style="color:#66d9ef">self</span>.key = key
-    }
-}
-
-<span style="color:#75715e">// Now we can simplify our AppSettings struct as</span>
-<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AppSettings</span> {
-    @Store(key: <span style="color:#e6db74">&#34;is_dark_mode_enabled&#34;</span>) <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">var</span> isDarkModeEnabled: Bool
-}
-
-<span style="color:#75715e">// value `true` is automatically stored in user defaults with key `is_dark_mode_enabled`</span>
-AppSettings.isDarkModeEnabled = <span style="color:#66d9ef">true</span>
-</code></pre></div><p>Let&rsquo;s break down the steps:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span>@propertyWrapper
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Store</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Key for UserDefaults</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> key: String
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// This is the special variable required in Property Wrapper.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> wrappedValue: Bool {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">set</span> { UserDefaults.standard.<span style="color:#66d9ef">set</span>(newValue, forKey: key) }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">get</span> { UserDefaults.standard.value(forKey: key) <span style="color:#66d9ef">as</span>? Bool ?? <span style="color:#66d9ef">false</span> }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span>(key: String) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">self</span>.key = key
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Now we can simplify our AppSettings struct as</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">AppSettings</span> {
+</span></span><span style="display:flex;"><span>    @Store(key: <span style="color:#e6db74">&#34;is_dark_mode_enabled&#34;</span>) <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">var</span> isDarkModeEnabled: Bool
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// value `true` is automatically stored in user defaults with key `is_dark_mode_enabled`</span>
+</span></span><span style="display:flex;"><span>AppSettings.isDarkModeEnabled = <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><p>Let&rsquo;s break down the steps:
 First we create a struct called Store. <code>@propertyWrapper</code> keyword declares that this struct is actually a property wrapper.
 <code>wrappedValue</code> is a special variable required in Property Wrapper. When we try to read the value of the property, it actually returns the value provided by this <code>wrappedValue</code> variable. Similarly when we try to set the value of the original property, it actually sets the value for this <code>wrappedValue</code>.
 Since we need some <code>key</code> to store the value in UserDefaults, we ask for that during initialization.
@@ -214,7 +214,7 @@ With the power of Generics, now this PropertyWrapper can be used with any type o
   </footer>
 </article>
     </main><footer class="footer">
-    <span>&copy; 2021 <a href="https://nrlnishan.github.io/">Nishan&#39;s Blog</a></span>
+    <span>&copy; 2022 <a href="https://nrlnishan.github.io/">Nishan&#39;s Blog</a></span>
     <span>&middot;</span>
     <span>Powered by <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a></span>
     <span>&middot;</span>
@@ -230,7 +230,7 @@ With the power of Generics, now this PropertyWrapper can be used with any type o
 
 
 
-<script defer src="https://nrlnishan.github.io/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js" integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w="
+<script defer src="https://nrlnishan.github.io/assets/js/highlight.min.b95bacdc39e37a332a9f883b1e78be4abc1fdca2bc1f2641f55e3cd3dabd4d61.js" integrity="sha256-uVus3DnjejMqn4g7Hni&#43;Srwf3KK8HyZB9V4809q9TWE="
     onload="hljs.initHighlightingOnLoad();"></script>
 <script>
     window.onload = function () {

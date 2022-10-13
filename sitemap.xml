@@ -1,84 +1,55 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://nrlnishan.github.io/posts/dark-mode-swiftui/</loc>
     <lastmod>2021-05-27T17:17:10+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/</loc>
     <lastmod>2021-05-27T17:17:10+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/posts/</loc>
     <lastmod>2021-05-27T17:17:10+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
+    <loc>https://nrlnishan.github.io/privacy/easy-fast/</loc>
+    <lastmod>2021-05-23T01:59:14+07:00</lastmod>
+  </url><url>
     <loc>https://nrlnishan.github.io/privacy/expense-diary/</loc>
     <lastmod>2021-05-23T01:59:14+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/privacy/</loc>
     <lastmod>2021-05-23T01:59:14+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/privacy/gym-diary/</loc>
     <lastmod>2021-02-12T23:43:49+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/posts/learn-swiftui/</loc>
     <lastmod>2021-01-13T21:46:48+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/apps/</loc>
     <lastmod>2021-01-06T22:52:20+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/apps/word-quest/</loc>
     <lastmod>2021-01-06T22:52:20+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/apps/gym-diary/</loc>
     <lastmod>2021-01-06T22:49:41+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/posts/objective-c-i-hate-you/</loc>
     <lastmod>2020-09-04T22:25:52+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/posts/property-wrappers/</loc>
     <lastmod>2020-05-20T21:56:51+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/tags/property-wrappers/</loc>
     <lastmod>2020-05-20T21:56:51+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/tags/swift/</loc>
     <lastmod>2020-05-20T21:56:51+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/tags/</loc>
     <lastmod>2020-05-20T21:56:51+07:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://nrlnishan.github.io/categories/</loc>
   </url>
-  
 </urlset>
