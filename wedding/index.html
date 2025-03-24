@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation</title>
+    <style>
+        /* Import fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #f9f7f7;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Main container */
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Image section */
+        .image-section {
+            flex: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .featured-image {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Information section */
+        .info-section {
+            flex: 1.3;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card h2 {
+            font-size: 1.7rem;
+            color: #0D1821;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .card b {
+            color: #3a3a3a;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .card p {
+            color: #3a3a3a;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .location-link {
+            display: block;
+            width: max-content;
+            margin: 0 auto;
+            background-color: #F67987;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .location-link:hover {
+            background-color: #F35366;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .image-section,
+            .info-section {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Featured Image Section -->
+        <div class="image-section">
+            <img src="images/wedding-invite.png" alt="Wedding Photo" class="featured-image">
+        </div>
+
+        <!-- Information Cards Section -->
+        <div class="info-section">
+            <!-- Wedding Ceremony Card -->
+            <div class="card">
+                <h2>Wedding Ceremony</h2>
+                <b>
+                    <p>Join us as we exchange our vows</p>
+                </b>
+                <p>Tuesday, May 06, 2025 • 11:00 AM</p>
+                <p>Baluwatar Palace (Banquet & Events)<br>Baluwatar, Kathmandu</p>
+                <a href="https://maps.app.goo.gl/KN9f8deTb2zixJze9" class="location-link" target="_blank">View on
+                    Map</a>
+            </div>
+
+            <!-- Wedding Reception Card -->
+            <div class="card">
+                <h2>Reception</h2>
+                <b>
+                    <p>Celebrate with dinner and dancing</p>
+                </b>
+                <p>Wednesday, May 07, 2025 • 5:00 PM</p>
+                <p>Anupam Foodland<br>Battisputali, Old Baneshwor, Kathmandu</p>
+                <a href="https://maps.app.goo.gl/KWrfNcUxbTfF5QVi7" class="location-link" target="_blank">View on
+                    Map</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
